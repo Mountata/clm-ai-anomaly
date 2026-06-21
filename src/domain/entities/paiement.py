@@ -1,15 +1,17 @@
 from datetime import date
 from src.domain.descriptors.montant_positif import MontantPositif
 from src.domain.entities.facture import Facture
+from src.domain.mixins.serializable_mixin import SerializableMixin
+from src.domain.mixins.auditable_mixin import AuditableMixin
 
-
-class Paiement:
+class Paiement(SerializableMixin, AuditableMixin):
     montant = MontantPositif()
 
     def __init__(self, facture: Facture, montant: float, date_paiement: date = None):
         self.facture = facture
         self.montant = montant
         self.date_paiement = date_paiement or date.today()
+        self._init_audit()
 
     def __call__(self):
         """
