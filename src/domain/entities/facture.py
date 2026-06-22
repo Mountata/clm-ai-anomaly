@@ -2,9 +2,11 @@ from datetime import date
 from src.domain.descriptors.montant_positif import MontantPositif
 from src.domain.descriptors.date_future import DateFuture
 from src.domain.entities.contrat import Contrat
+from src.domain.mixins.serializable_mixin import SerializableMixin
+from src.domain.mixins.auditable_mixin import AuditableMixin
 
 
-class Facture:
+class Facture(SerializableMixin, AuditableMixin):
     montant = MontantPositif()
     date_echeance = DateFuture()
 
@@ -14,6 +16,7 @@ class Facture:
         self.montant = montant
         self.date_echeance = date_echeance
         self.payee = False
+        self._init_audit()
 
     @property
     def client(self):
@@ -30,7 +33,9 @@ class Facture:
         return "En attente"
 
     def marquer_payee(self):
+
         self.payee = True
+        self.marquer_modifie()
 
     def __add__(self, autre: "Facture") -> float:
         """

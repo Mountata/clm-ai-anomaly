@@ -23,29 +23,3 @@ class MontantPositif:
             raise ValueError(f"le montant doit etre positif ou nul:, recu:{value}")
         
         setattr(instance, self.nom_prive, value)
-
-
-# ---------- VOS TESTS ----------
-if __name__ == "__main__":
-    class Test:
-        montant = MontantPositif()
-
-    t = Test()
-    t.montant = 100
-    print(f"✅ Valeur acceptée : {t.montant}")
-
-    print("Je vais maintenant tenter de mettre -50...")
-    try:
-        t.montant = -50
-    except ValueError as e:
-        print(f"❌ Erreur attrapée comme prévu : {e}")
-        
-            
-
-
-
-
-
-
-
-

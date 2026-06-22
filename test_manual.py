@@ -36,3 +36,27 @@ t = Tache("Relancer le client Acme", PrioriteTache.HAUTE)
 print(t)
 t.terminer()
 print(t)
+
+
+
+import json
+
+print(json.dumps(contrat.to_dict(), indent=2, default=str))
+
+import time
+
+f3 = Facture("FAC-003", contrat, 2000, date.today() + timedelta(days=10))
+print(f3.to_dict())          # grâce à SerializableMixin
+print(f3.cree_le)            # grâce à AuditableMixin
+
+time.sleep(1)
+f3.marquer_payee()
+print(f3.modifie_le)         # différent de cree_le maintenant
+
+
+c1 = Contrat("CTR-A", c, 10000, date.today() + timedelta(days=60), vecteur_embedding=[1, 0, 1])
+c2 = Contrat("CTR-B", c, 8000, date.today() + timedelta(days=60), vecteur_embedding=[1, 0, 0.9])
+c3 = Contrat("CTR-C", c, 5000, date.today() + timedelta(days=60), vecteur_embedding=[0, 1, 0])
+
+print(c1 @ c2)   # proche de 1 → contrats similaires
+print(c1 @ c3)   # proche de 0 → contrats différents
